@@ -2,7 +2,7 @@
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import AppSidebar from './components/AppSidebar'
 import { useRouter } from 'next/navigation'
-import { useGetUser } from '@/queries/auth'
+import { useGetUser } from '@/queries/user'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { data: session, isPending } = useGetUser()

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { signIn, signUp, getUser } from '@/services/auth'
+import { signIn, signUp } from '@/services/auth'
 import type { SignInSchema, SignUpSchema } from '@/schemas/auth'
 
 export function useSignIn() {
@@ -13,12 +13,5 @@ export function useSignUp() {
   return useMutation({
     mutationKey: ['auth', 'sign-up'],
     mutationFn: (input: SignUpSchema) => signUp(input)
-  })
-}
-
-export function useGetUser() {
-  return useQuery({
-    queryKey: ['auth', 'get-user'],
-    queryFn: () => getUser()
   })
 }
