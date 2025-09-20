@@ -34,3 +34,13 @@ export async function signUp(input: SignUpSchema) {
 
   return data
 }
+
+export async function getUser() {
+  const { data, error } = await supabase.auth.getUser()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data
+}
