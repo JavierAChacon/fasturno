@@ -1,4 +1,5 @@
 import QueryProvider from '@/components/QueryProvider'
+import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 
 export default function RootLayout({
@@ -9,7 +10,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <Toaster position="top-right" />
+          <main>{children}</main>
+        </QueryProvider>
       </body>
     </html>
   )
