@@ -1,15 +1,16 @@
-import "./globals.css";
+import QueryProvider from '@/components/QueryProvider'
+import './globals.css'
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="es">
       <body>
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
-  );
+  )
 }
