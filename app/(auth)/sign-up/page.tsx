@@ -37,7 +37,7 @@ export default function SignUpForm() {
     mutate(data, {
       onSuccess: () => {
         toast.success('Cuenta creada con éxito')
-        router.push('/signin')
+        router.push('/sign-in')
       },
       onError: (error) => {
         toast.error(error.message)
@@ -87,7 +87,7 @@ export default function SignUpForm() {
             <FormItem className="flex flex-col items-start">
               <FormLabel>Numero de Teléfono</FormLabel>
               <FormControl className="w-full">
-                <PhoneInput placeholder="4247153319" {...field} defaultCountry="VE" />
+                <PhoneInput {...field} placeholder="04247153319" defaultCountry="VE" />
               </FormControl>
               <FormMessage />
             </FormItem>
