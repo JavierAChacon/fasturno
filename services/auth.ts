@@ -1,7 +1,21 @@
-import { createClient } from '../lib/supabase/client'
+import { Session } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/client'
 import type { SignInSchema, SignUpSchema } from '@/schemas/auth'
 
 const supabase = createClient()
+
+export async function getSession(): Promise<Session | null> {
+  const {
+    data: { session },
+    error
+  } = await supabase.auth.getSession()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return session
+}
 
 export async function signIn(input: SignInSchema) {
   const { data, error } = await supabase.auth.signInWithPassword({
