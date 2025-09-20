@@ -15,14 +15,30 @@ import { type UpdateUserSchema, updateUserSchema } from '@/schemas/user'
 import SubmitButton from '@/components/SubmitButton'
 import { toast } from 'sonner'
 import { useUpdateUser } from '@/queries/user'
+import { getSession } from '@/services/auth'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function Page() {
-  const { mutate, isPending } = useUpdateUser()
+  const { mutate, isPending: isUpdating } = useUpdateUser()
 
   const form = useForm<UpdateUserSchema>({
     resolver: zodResolver(updateUserSchema),
-    defaultValues: { name: '', lastName: '', phone: '', email: '', password: '' }
+    defaultValues: async () => {
+      const session = await getSession()
+
+      return {
+        name: session?.user?.user_metadata?.name || '',
+        lastName: session?.user?.user_metadata?.lastName || '',
+        phone: session?.user?.user_metadata?.phone || '',
+        email: session?.user?.email || '',
+        password: ''
+      }
+    }
   })
+
+  const {
+    formState: { isLoading }
+  } = form
 
   const onSubmit = (data: UpdateUserSchema) => {
     mutate(data, {
@@ -30,6 +46,49 @@ export default function Page() {
       onError: (error) => toast.error(error.message)
     })
   }
+
+  if (isLoading)
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-6">
+        <div className="w-full max-w-2xl rounded-xl bg-white p-10 shadow-md">
+          <div className="mb-1">
+            <Skeleton className="h-8 w-48" /> {/* Título */}
+          </div>
+
+          <div className="space-y-6">
+            <div className="grid grid-cols-12 gap-4">
+              <div className="col-span-12 space-y-2 sm:col-span-6">
+                <Skeleton className="h-4 w-24" /> {/* Label */}
+                <Skeleton className="h-10 w-full rounded-md" /> {/* Input */}
+              </div>
+              <div className="col-span-12 space-y-2 sm:col-span-6">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-10 w-full rounded-md" />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-36" /> {/* Label Teléfono */}
+              <Skeleton className="h-10 w-full rounded-md" />
+            </div>
+
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-20" /> {/* Label Email */}
+              <Skeleton className="h-10 w-full rounded-md" />
+            </div>
+
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-28" /> {/* Label Password */}
+              <Skeleton className="h-10 w-full rounded-md" />
+            </div>
+
+            <div>
+              <Skeleton className="h-10 w-full rounded-md" /> {/* Botón */}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-6">
@@ -78,7 +137,12 @@ export default function Page() {
                 <FormItem className="flex flex-col items-start">
                   <FormLabel>Número de Teléfono</FormLabel>
                   <FormControl className="w-full">
-                    <PhoneInput placeholder="4247153319" defaultCountry="VE" {...field} />
+                    <PhoneInput
+                      placeholder="4247153319"
+                      defaultCountry="VE"
+                      initialValueFormat="national"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -113,7 +177,7 @@ export default function Page() {
               )}
             />
 
-            <SubmitButton loading={isPending} text="Actualizar Perfil" />
+            <SubmitButton loading={isUpdating} text="Actualizar Perfil" />
           </form>
         </Form>
       </div>
