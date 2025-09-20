@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { type SignInSchema, signInSchema } from '@/schemas/auth'
-import SubmitButton from '../components/SubmitButton'
+import SubmitButton from '../../../components/SubmitButton'
 import { useRouter } from 'next/navigation'
 import { useSignIn } from '@/queries/auth'
 import { toast } from 'sonner'
