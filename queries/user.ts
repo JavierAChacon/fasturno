@@ -11,7 +11,7 @@ export function useUpdateUser() {
 
 export function useGetUser() {
   return useQuery({
-    queryKey: ['auth', 'get-user'],
+    queryKey: ['user', 'get-user'],
     queryFn: () => getUser()
   })
 }
