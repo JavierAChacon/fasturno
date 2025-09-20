@@ -1,25 +1,16 @@
 'use client'
-
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { AppSidebar } from './components/AppSidebar'
-import { useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { redirect } from 'next/navigation'
+import AppSidebar from './components/AppSidebar'
+import { useRouter } from 'next/navigation'
+import { useGetUser } from '@/queries/auth'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    const getSession = async () => {
-      const supabase = createClient()
+  const { data: session, isPending } = useGetUser()
+  const router = useRouter()
 
-      const {
-        data: { session }
-      } = await supabase.auth.getSession()
-      if (!session) {
-        redirect('/login')
-      }
-    }
-    getSession()
-  }, [])
+  if (!session && !isPending) {
+    router.push('/sign-in')
+  }
 
   return (
     <SidebarProvider>
