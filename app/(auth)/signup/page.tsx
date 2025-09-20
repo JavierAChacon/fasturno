@@ -1,77 +1,53 @@
-"use client";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+'use client'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { PhoneInput } from "@/components/ui/phone-input";
-import { redirect } from "next/navigation";
-import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
-import { type SignUpSchema, signUpSchema } from "../schemas/signupSchema";
-import { useState } from "react";
-import SubmitButton from "../components/SubmitButton";
-import { useRouter } from "next/navigation";
+  FormMessage
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { PhoneInput } from '@/components/ui/phone-input'
+import Link from 'next/link'
+import { type SignUpSchema, signUpSchema } from '@/schemas/auth'
+import SubmitButton from '../components/SubmitButton'
+import { useRouter } from 'next/navigation'
+import { useSignUp } from '@/queries/auth'
+import { toast } from 'sonner'
 
 export default function SignUpForm() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+  const router = useRouter()
+  const { mutate, isPending } = useSignUp()
 
   const form = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      name: "",
-      lastName: "",
-      phone: "",
-      email: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = async (values: SignUpSchema) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const supabase = createClient();
-      const { name, lastName, phone, email, password } = values;
-
-      const { error, data } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            name,
-            lastName,
-            phone,
-            avatarUrl: null,
-          },
-        },
-      });
-
-      if (error !== null) {
-        setError(error.message);
-        return;
-      }
-
-      router.push("/login");
-    } catch (error) {
-      console.error(error);
-      setError("Ocurrió un error inesperado. Por favor, intenta de nuevo.");
-    } finally {
-      setLoading(false);
+      name: '',
+      lastName: '',
+      phone: '',
+      email: '',
+      password: ''
     }
-  };
+  })
+
+  const onSubmit = (data: SignUpSchema) => {
+    mutate(data, {
+      onSuccess: () => {
+        toast.success('Cuenta creada con éxito')
+        router.push('/signin')
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      }
+    })
+  }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 w-1/2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-1/2 space-y-5">
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-6">
             <FormField
@@ -81,15 +57,13 @@ export default function SignUpForm() {
                 <FormItem>
                   <FormLabel>Nombre</FormLabel>
                   <FormControl>
-                    <Input placeholder="" type="text" {...field} />
+                    <Input type="text" {...field} />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-
           <div className="col-span-6">
             <FormField
               control={form.control}
@@ -98,16 +72,14 @@ export default function SignUpForm() {
                 <FormItem>
                   <FormLabel>Apellido</FormLabel>
                   <FormControl>
-                    <Input placeholder="" type="" {...field} />
+                    <Input type="text" {...field} />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
         </div>
-
         <FormField
           control={form.control}
           name="phone"
@@ -115,18 +87,12 @@ export default function SignUpForm() {
             <FormItem className="flex flex-col items-start">
               <FormLabel>Numero de Teléfono</FormLabel>
               <FormControl className="w-full">
-                <PhoneInput
-                  placeholder="4247153319"
-                  {...field}
-                  defaultCountry="VE"
-                />
+                <PhoneInput placeholder="4247153319" {...field} defaultCountry="VE" />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="email"
@@ -134,14 +100,12 @@ export default function SignUpForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="" type="" {...field} />
+                <Input type="string" {...field} />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="password"
@@ -149,24 +113,20 @@ export default function SignUpForm() {
             <FormItem>
               <FormLabel>Contraseña</FormLabel>
               <FormControl>
-                <Input placeholder="" type="password" {...field} />
+                <Input type="password" {...field} />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}
         />
-        <SubmitButton loading={loading} text="Registrarse" error={error} />
-        <span className="block text-center text-sm mt-4">
+        <SubmitButton loading={isPending} text="Registrarse" />
+        <span className="mt-4 block text-center text-sm">
           ¿Ya tienes una cuenta?
-          <Link
-            href="/login"
-            className="text-purple-600 hover:underline font-semibold ml-2"
-          >
+          <Link href="/login" className="ml-2 font-semibold text-purple-600 hover:underline">
             Inicia sesión
           </Link>
         </span>
       </form>
     </Form>
-  );
+  )
 }
