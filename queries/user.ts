@@ -1,6 +1,7 @@
 import { updateUser, getUser } from '@/services/user'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { type UpdateUserSchema } from '@/schemas/user'
+import type { User } from '@supabase/supabase-js'
 
 export function useUpdateUser() {
   return useMutation({
@@ -10,7 +11,7 @@ export function useUpdateUser() {
 }
 
 export function useGetUser() {
-  return useQuery({
+  return useQuery<User | null>({
     queryKey: ['user', 'get-user'],
     queryFn: () => getUser()
   })
