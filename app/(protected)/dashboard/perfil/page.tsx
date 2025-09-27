@@ -15,24 +15,21 @@ import { type UpdateUserSchema, updateUserSchema } from '@/schemas/user'
 import SubmitButton from '@/components/SubmitButton'
 import { toast } from 'sonner'
 import { useUpdateUser } from '@/queries/user'
-import { getSession } from '@/services/auth'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useGetSession } from '@/queries/auth'
 
 export default function Page() {
   const { mutate, isPending: isUpdating } = useUpdateUser()
+  const { data: session } = useGetSession()
 
   const form = useForm<UpdateUserSchema>({
     resolver: zodResolver(updateUserSchema),
-    defaultValues: async () => {
-      const session = await getSession()
-
-      return {
-        name: session?.user?.user_metadata?.name || '',
-        lastName: session?.user?.user_metadata?.lastName || '',
-        phone: session?.user?.user_metadata?.phone || '',
-        email: session?.user?.email || '',
-        password: ''
-      }
+    values: {
+      name: session?.user?.user_metadata?.name || '',
+      lastName: session?.user?.user_metadata?.lastName || '',
+      phone: session?.user?.user_metadata?.phone || '',
+      email: session?.user?.email || '',
+      password: ''
     }
   })
 
@@ -52,14 +49,14 @@ export default function Page() {
       <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-6">
         <div className="w-full max-w-2xl rounded-xl bg-white p-10 shadow-md">
           <div className="mb-1">
-            <Skeleton className="h-8 w-48" /> {/* Título */}
+            <Skeleton className="h-8 w-48" />
           </div>
 
           <div className="space-y-6">
             <div className="grid grid-cols-12 gap-4">
               <div className="col-span-12 space-y-2 sm:col-span-6">
-                <Skeleton className="h-4 w-24" /> {/* Label */}
-                <Skeleton className="h-10 w-full rounded-md" /> {/* Input */}
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-10 w-full rounded-md" />
               </div>
               <div className="col-span-12 space-y-2 sm:col-span-6">
                 <Skeleton className="h-4 w-24" />
@@ -68,22 +65,22 @@ export default function Page() {
             </div>
 
             <div className="space-y-2">
-              <Skeleton className="h-4 w-36" /> {/* Label Teléfono */}
+              <Skeleton className="h-4 w-36" />
               <Skeleton className="h-10 w-full rounded-md" />
             </div>
 
             <div className="space-y-2">
-              <Skeleton className="h-4 w-20" /> {/* Label Email */}
+              <Skeleton className="h-4 w-20" />
               <Skeleton className="h-10 w-full rounded-md" />
             </div>
 
             <div className="space-y-2">
-              <Skeleton className="h-4 w-28" /> {/* Label Password */}
+              <Skeleton className="h-4 w-28" />
               <Skeleton className="h-10 w-full rounded-md" />
             </div>
 
             <div>
-              <Skeleton className="h-10 w-full rounded-md" /> {/* Botón */}
+              <Skeleton className="h-10 w-full rounded-md" />
             </div>
           </div>
         </div>
@@ -163,7 +160,7 @@ export default function Page() {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="password"
               render={({ field }) => (
@@ -175,7 +172,7 @@ export default function Page() {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <SubmitButton loading={isUpdating} text="Actualizar Perfil" />
           </form>

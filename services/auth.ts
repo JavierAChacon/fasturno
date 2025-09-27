@@ -48,3 +48,11 @@ export async function signUp(input: SignUpSchema) {
 
   return data
 }
+
+export async function signOut() {
+  const { error } = await supabase.auth.signOut()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+}

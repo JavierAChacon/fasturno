@@ -18,11 +18,17 @@ import {
   Briefcase,
   UserCircle,
   Handshake,
-  Building2
+  Building2,
+  LogOut
 } from 'lucide-react'
+import { useSignOut } from '@/queries/auth'
+import { useRouter } from 'next/navigation'
+import { Spinner } from '@/components/Spinner'
 
 export default function AppSideBar() {
   const pathname = usePathname()
+  const signOut = useSignOut()
+  const router = useRouter()
 
   const items = [
     { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
@@ -33,6 +39,14 @@ export default function AppSideBar() {
     { title: 'Perfil', url: '/dashboard/perfil', icon: UserCircle },
     { title: 'Organización', url: '/dashboard/organizacion', icon: Building2 }
   ]
+
+  const handleLogOut = () => {
+    signOut.mutate(undefined, {
+      onSuccess: () => {
+        router.push('/sign-in')
+      }
+    })
+  }
 
   return (
     <Sidebar>
@@ -57,6 +71,16 @@ export default function AppSideBar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem key="Cerrar Sesión">
+                <SidebarMenuButton
+                  className="flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-base text-gray-700 transition-colors hover:bg-red-500 hover:text-white"
+                  onClick={handleLogOut}
+                  disabled={signOut.isPending}
+                >
+                  {signOut.isPending ? <Spinner /> : <LogOut className="h-5 w-5" />}
+                  <span>Cerrar Sesión</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

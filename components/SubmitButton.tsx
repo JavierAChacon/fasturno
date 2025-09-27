@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import React from 'react'
-import Spinner from '@/components/Spinner'
+import { Spinner } from '@/components/Spinner'
 
 interface SubmitButtonProps {
   loading: boolean
