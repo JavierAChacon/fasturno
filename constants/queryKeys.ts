@@ -1,3 +1,7 @@
 export const AUTH_KEY = {
-  GET_SESSION: ['auth', 'get-session']
+  SESSION: ['auth', 'get-session']
+}
+
+export const ORGANIZATION_KEY = {
+  ORGANIZATION: ['organization']
 }

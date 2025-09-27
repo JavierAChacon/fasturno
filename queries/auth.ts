@@ -6,7 +6,7 @@ import type { Session } from '@supabase/supabase-js'
 
 export function useGetSession() {
   return useQuery<Session | null>({
-    queryKey: AUTH_KEY.GET_SESSION,
+    queryKey: AUTH_KEY.SESSION,
     queryFn: getSession
   })
 }
@@ -33,7 +33,7 @@ export function useSignOut() {
   return useMutation({
     mutationFn: signOut,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: AUTH_KEY.GET_SESSION })
+      queryClient.invalidateQueries({ queryKey: AUTH_KEY.SESSION })
     }
   })
 }
