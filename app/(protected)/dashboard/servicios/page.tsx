@@ -11,6 +11,7 @@ import {
 import { Pencil, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useGetServices } from '@/queries/service'
+import AddService from './components/add-service'
 
 export default function ServiciosPage() {
   const { data: services } = useGetServices()
@@ -19,7 +20,7 @@ export default function ServiciosPage() {
     <div className="flex h-screen flex-col items-center bg-gray-100 p-6">
       <div className="mb-4 flex w-full items-center justify-between">
         <h1 className="text-2xl font-bold">Servicios</h1>
-        <Button className="bg-purple-400 hover:bg-purple-500">Nuevo Servicio</Button>
+        <AddService />
       </div>
 
       <div className="w-full">
@@ -36,7 +37,10 @@ export default function ServiciosPage() {
 
           <TableBody>
             {services?.map((service) => (
-              <TableRow key={service.id} className="group relative hover:bg-purple-100">
+              <TableRow
+                key={service.id}
+                className="group relative text-gray-600 hover:bg-purple-100"
+              >
                 <TableCell>{service.name}</TableCell>
                 <TableCell>{service.description}</TableCell>
                 <TableCell>
@@ -67,14 +71,16 @@ export default function ServiciosPage() {
                     : '—'}
                 </TableCell>
 
-                <div className="absolute top-1/2 right-2 hidden -translate-y-1/2 space-x-2 group-hover:flex">
-                  <Button variant="ghost" size="icon">
-                    <Pencil className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon">
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
+                <TableCell className="relative w-0 p-0">
+                  <div className="absolute top-1/2 right-2 hidden -translate-y-1/2 items-center gap-2 group-hover:flex">
+                    <Button variant="ghost" size="icon" aria-label="Edit service">
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" aria-label="Delete service">
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
