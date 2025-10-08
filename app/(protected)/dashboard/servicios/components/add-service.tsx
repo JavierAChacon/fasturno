@@ -8,7 +8,7 @@ import {
   DrawerHeader,
   DrawerTitle
 } from '@/components/ui/drawer'
-import { addServiceSchema, type AddServiceSchema } from '@/schemas/service'
+import { createServiceSchema, type CreateServiceSchema } from '@/schemas/service'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -22,10 +22,13 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
+import { useCreateService } from '@/queries/service'
 
 export default function AddService() {
-  const form = useForm<AddServiceSchema>({
-    resolver: zodResolver(addServiceSchema),
+  const { isPending: isCreating, mutate: createService } = useCreateService()
+
+  const form = useForm<CreateServiceSchema>({
+    resolver: zodResolver(createServiceSchema),
     defaultValues: {
       name: '',
       description: '',
@@ -33,8 +36,16 @@ export default function AddService() {
     }
   })
 
-  const onSubmit = (data: AddServiceSchema) => {
-    console.dir(data)
+  const onSubmit = (data: CreateServiceSchema) => {
+    createService(data, {
+      onSuccess: () => {
+        toast.success('Servicio agregado correctamente')
+        form.reset()
+      },
+      onError: (error) => {
+        toast.error(`${error.message}`)
+      }
+    })
   }
 
   return (
@@ -102,7 +113,11 @@ export default function AddService() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="bg-purple-400 hover:bg-purple-500">
+            <Button
+              type="submit"
+              className="bg-purple-400 hover:bg-purple-500"
+              disabled={isCreating}
+            >
               Agregar Servicio
             </Button>
           </form>
