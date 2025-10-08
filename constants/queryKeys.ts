@@ -5,3 +5,7 @@ export const AUTH_KEY = {
 export const ORGANIZATION_KEY = {
   ORGANIZATION: ['organization']
 }
+
+export const SERVICE_KEY = {
+  SERVICES: ['services']
+}
