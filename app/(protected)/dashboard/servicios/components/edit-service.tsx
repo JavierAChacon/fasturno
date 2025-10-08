@@ -25,6 +25,7 @@ import { toast } from 'sonner'
 import { useUpdateService, useGetServiceById } from '@/queries/service'
 import { Pencil } from 'lucide-react'
 import { useState } from 'react'
+import { Spinner } from '@/components/Spinner'
 
 export function EditService({ serviceId }: { serviceId: number }) {
   const { isPending: isUpdating, mutate: updateService } = useUpdateService()
@@ -131,7 +132,7 @@ export function EditService({ serviceId }: { serviceId: number }) {
               className="bg-purple-400 hover:bg-purple-500"
               disabled={isUpdating}
             >
-              Editar Servicio
+              {isUpdating ? <Spinner /> : 'Editar Servicio'}
             </Button>
           </form>
         </Form>

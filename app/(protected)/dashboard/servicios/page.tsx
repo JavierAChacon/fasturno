@@ -8,12 +8,11 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { Trash2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { useGetServices } from '@/queries/service'
 import { AddService } from './components/add-service'
 import { EditService } from './components/edit-service'
 import { ServiciosSkeleton } from '../../components/skeletons/ServiciosSkeleton'
+import { DeleteService } from './components/delete-service'
 
 export default function ServiciosPage() {
   const { data: services, isPending: isLoading } = useGetServices()
@@ -80,9 +79,7 @@ export default function ServiciosPage() {
                 <TableCell className="relative w-0 p-0">
                   <div className="absolute top-1/2 right-2 hidden -translate-y-1/2 items-center gap-2 group-hover:flex">
                     <EditService serviceId={service.id} />
-                    <Button variant="ghost" size="icon" aria-label="Delete service">
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <DeleteService serviceId={service.id} />
                   </div>
                 </TableCell>
               </TableRow>

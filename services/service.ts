@@ -60,3 +60,11 @@ export async function getServiceById(id: number): Promise<ServiceSchema> {
 
   return data
 }
+
+export async function deleteService(id: number): Promise<void> {
+  const { error } = await supabase.from('services').delete().eq('id', id)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+}

@@ -24,6 +24,7 @@ import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
 import { useCreateService } from '@/queries/service'
 import { useState } from 'react'
+import { Spinner } from '@/components/Spinner'
 
 export function AddService() {
   const [open, setOpen] = useState(false)
@@ -121,7 +122,7 @@ export function AddService() {
               className="bg-purple-400 hover:bg-purple-500"
               disabled={isCreating}
             >
-              Agregar Servicio
+              {isCreating ? <Spinner /> : 'Agregar Servicio'}
             </Button>
           </form>
         </Form>
