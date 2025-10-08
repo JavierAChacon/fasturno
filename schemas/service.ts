@@ -5,8 +5,8 @@ export const serviceSchema = z.object({
   name: z.string(),
   description: z.string().nullable(),
   price: z.number(),
-  created_at: z.string(),
-  updated_at: z.string().nullable()
+  created_at: z.iso.datetime(),
+  updated_at: z.iso.datetime().nullable()
 })
 export type ServiceSchema = z.infer<typeof serviceSchema>
 
@@ -16,3 +16,8 @@ export const createServiceSchema = z.object({
   price: z.number().positive('El precio del servicio debe ser un número positivo')
 })
 export type CreateServiceSchema = z.infer<typeof createServiceSchema>
+
+export const updateServiceSchema = createServiceSchema.extend({
+  updated_at: z.iso.datetime().optional()
+})
+export type UpdateServiceSchema = z.infer<typeof updateServiceSchema>

@@ -2,8 +2,8 @@ import { useGetOrganization } from './organization'
 import { SERVICE_KEY } from '@/constants/queryKeys'
 import { getServicesByOrganizationId } from '@/services/service'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
-import { type CreateServiceSchema } from '@/schemas/service'
-import { createService } from '@/services/service'
+import { type CreateServiceSchema, type UpdateServiceSchema } from '@/schemas/service'
+import { createService, updateService, getServiceById } from '@/services/service'
 
 export function useGetServices() {
   const { data: organization } = useGetOrganization()
@@ -29,5 +29,28 @@ export function useCreateService() {
         queryKey: [SERVICE_KEY.SERVICES, organization?.id]
       })
     }
+  })
+}
+
+export function useUpdateService() {
+  const { data: organization } = useGetOrganization()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, values }: { id: number; values: UpdateServiceSchema }) =>
+      updateService(id, values),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [SERVICE_KEY.SERVICES, organization?.id]
+      })
+    }
+  })
+}
+
+export function useGetServiceById(id: number) {
+  return useQuery({
+    queryKey: [SERVICE_KEY.SERVICE, id],
+    queryFn: () => getServiceById(id),
+    enabled: !!id
   })
 }

@@ -23,8 +23,10 @@ import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
 import { useCreateService } from '@/queries/service'
+import { useState } from 'react'
 
-export default function AddService() {
+export function AddService() {
+  const [open, setOpen] = useState(false)
   const { isPending: isCreating, mutate: createService } = useCreateService()
 
   const form = useForm<CreateServiceSchema>({
@@ -41,6 +43,7 @@ export default function AddService() {
       onSuccess: () => {
         toast.success('Servicio agregado correctamente')
         form.reset()
+        setOpen(false)
       },
       onError: (error) => {
         toast.error(`${error.message}`)
@@ -49,7 +52,7 @@ export default function AddService() {
   }
 
   return (
-    <Drawer direction="right">
+    <Drawer direction="right" open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button className="bg-purple-400 hover:bg-purple-500">Nuevo Servicio</Button>
       </DrawerTrigger>

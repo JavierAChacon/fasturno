@@ -7,5 +7,6 @@ export const ORGANIZATION_KEY = {
 }
 
 export const SERVICE_KEY = {
-  SERVICES: ['services']
+  SERVICES: ['services'],
+  SERVICE: ['service']
 }
