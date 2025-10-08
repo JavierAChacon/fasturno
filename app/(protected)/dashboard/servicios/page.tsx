@@ -13,9 +13,14 @@ import { Button } from '@/components/ui/button'
 import { useGetServices } from '@/queries/service'
 import { AddService } from './components/add-service'
 import { EditService } from './components/edit-service'
+import { ServiciosSkeleton } from '../../components/skeletons/ServiciosSkeleton'
 
 export default function ServiciosPage() {
-  const { data: services } = useGetServices()
+  const { data: services, isPending: isLoading } = useGetServices()
+
+  if (isLoading) {
+    return <ServiciosSkeleton />
+  }
 
   return (
     <div className="flex h-screen flex-col items-center bg-gray-100 p-6">
