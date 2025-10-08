@@ -74,7 +74,7 @@ export default function SignInPage() {
         <SubmitButton loading={isPending} text="Iniciar sesión" />
         <span className="mt-4 block text-center text-sm">
           ¿No tienes una cuenta?
-          <Link href="/signup" className="ml-2 font-semibold text-purple-600 hover:underline">
+          <Link href="/sign-up" className="ml-2 font-semibold text-purple-600 hover:underline">
             Regístrate
           </Link>
         </span>
