@@ -10,7 +10,7 @@ export function useGetServices() {
 
   return useQuery({
     queryKey: [SERVICE_KEY.SERVICES, organization?.id],
-    queryFn: () => getServicesByOrganizationId(organization.id),
+    queryFn: () => getServicesByOrganizationId(organization!.id),
     enabled: !!organization?.id
   })
 }
