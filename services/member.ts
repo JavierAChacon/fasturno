@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/client'
-import type { AddMemberSchema, MemberWithProfileSchema, UpdateMemberSchema } from '@/schemas/member'
+import type { AddMemberSchema, UpdateMemberSchema } from '@/schemas/member'
 
 const supabase = createClient()
 
@@ -32,7 +32,7 @@ export async function addMember(member: AddMemberSchema, organization_id: number
   return data
 }
 
-export async function getMembers(organization_id: number): Promise<MemberWithProfileSchema[]> {
+export async function getMembers(organization_id: number) {
   const { data, error } = await supabase
     .from('members')
     .select(
@@ -59,7 +59,7 @@ export async function getMembers(organization_id: number): Promise<MemberWithPro
   return data
 }
 
-export async function getMemberById(memberId: string): Promise<MemberWithProfileSchema> {
+export async function getMemberById(memberId: string) {
   const { data, error } = await supabase
     .from('members')
     .select(

@@ -26,7 +26,7 @@ export function useGetMembers() {
 
   return useQuery({
     queryKey: [MEMBERS_KEY.MEMBERS],
-    queryFn: () => getMembers(organization.id),
+    queryFn: () => getMembers(organization!.id),
     enabled: !!organization?.id
   })
 }

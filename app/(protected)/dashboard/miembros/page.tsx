@@ -43,10 +43,7 @@ const MiembrosPage = () => {
         </TableHeader>
         <TableBody>
           {members?.map((member) => (
-            <TableRow
-              key={member.id} // mejor usar un id estable
-              className="group relative text-gray-600 hover:bg-purple-100"
-            >
+            <TableRow key={member.id} className="group relative text-gray-600 hover:bg-purple-100">
               <TableCell>{member.profiles?.name ?? '—'}</TableCell>
               <TableCell>{member.profiles?.last_name ?? '—'}</TableCell>
               <TableCell>{member.profiles?.email ?? '—'}</TableCell>

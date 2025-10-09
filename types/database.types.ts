@@ -8,6 +8,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      clients: {
+        Row: {
+          cedula: string
+          created_at: string
+          email: string | null
+          id: number
+          last_name: string
+          name: string
+          organization_id: number
+          phone: string
+          updated_at: string | null
+        }
+        Insert: {
+          cedula: string
+          created_at?: string
+          email?: string | null
+          id?: number
+          last_name: string
+          name: string
+          organization_id: number
+          phone: string
+          updated_at?: string | null
+        }
+        Update: {
+          cedula?: string
+          created_at?: string
+          email?: string | null
+          id?: number
+          last_name?: string
+          name?: string
+          organization_id?: number
+          phone?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'clients_organization_id_fkey'
+            columns: ['organization_id']
+            isOneToOne: false
+            referencedRelation: 'organizations'
+            referencedColumns: ['id']
+          }
+        ]
+      }
       members: {
         Row: {
           created_at: string

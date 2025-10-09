@@ -14,3 +14,7 @@ export const SERVICE_KEY = {
 export const MEMBERS_KEY = {
   MEMBERS: ['members']
 }
+
+export const CLIENTS_KEY = {
+  CLIENTS: ['clients']
+}
