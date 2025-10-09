@@ -32,7 +32,7 @@ export default function OrganizationPage() {
 
   const onSubmit = (data: OrganizationSchema) => {
     updateOrganization(
-      { id: organization.id, data },
+      { id: organization!.id, data },
       {
         onSuccess: () => {
           toast.success('Organización actualizada correctamente')
