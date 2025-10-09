@@ -1,5 +1,9 @@
 'use client'
 
+import { useGetClients } from '@/queries/client'
+import { AddClient } from './components/addClient'
+import { EditClient } from './components/editClient'
+import { DeleteClient } from './components/deleteClient'
 import {
   Table,
   TableBody,
@@ -8,16 +12,9 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-// import { AddService } from './components/add-service'
-// import { EditService } from './components/edit-service'
 import { ServiciosSkeleton } from '../../components/skeletons/ServiciosSkeleton'
-import { useGetClients } from '@/queries/client'
-import { AddClient } from './components/addClient'
-import { DeleteService } from '../servicios/components/delete-service'
-// import { DeleteService } from './components/delete-service'
 
 export default function ClientesPage() {
-  // const { data: services, isPending: isLoading } = useGetServices()
   const { data: clients, isPending: isLoading } = useGetClients()
 
   if (isLoading) {
@@ -80,8 +77,8 @@ export default function ClientesPage() {
 
                   <TableCell className="relative w-0 p-0">
                     <div className="absolute top-1/2 right-2 hidden -translate-y-1/2 items-center gap-2 group-hover:flex">
-                      {/* <EditService serviceId={client.id} /> */}
-                      {/* <DeleteService serviceId={client.id} /> */}
+                      <EditClient clientId={client.id} />
+                      <DeleteClient clientId={client.id} />
                     </div>
                   </TableCell>
                 </TableRow>

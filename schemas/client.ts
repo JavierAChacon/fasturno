@@ -9,3 +9,8 @@ export const addClientSchema = z.object({
   phone: z.string().refine(isValidPhoneNumber, { message: 'Número de teléfono inválido' })
 })
 export type AddClientSchema = z.infer<typeof addClientSchema>
+
+export const updateClientSchema = addClientSchema.extend({
+  updated_at: z.iso.datetime().optional()
+})
+export type UpdateClientSchema = z.infer<typeof updateClientSchema>
