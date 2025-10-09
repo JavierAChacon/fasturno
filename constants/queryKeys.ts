@@ -10,3 +10,7 @@ export const SERVICE_KEY = {
   SERVICES: ['services'],
   SERVICE: ['service']
 }
+
+export const MEMBERS_KEY = {
+  MEMBERS: ['members']
+}

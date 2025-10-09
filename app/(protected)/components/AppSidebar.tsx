@@ -33,7 +33,7 @@ export default function AppSideBar() {
   const items = [
     { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
     { title: 'Citas', url: '/dashboard/citas', icon: CalendarDays },
-    { title: 'Empleados', url: '/dashboard/empleados', icon: Users },
+    { title: 'Miembros', url: '/dashboard/miembros', icon: Users },
     { title: 'Servicios', url: '/dashboard/servicios', icon: Briefcase },
     { title: 'Clientes', url: '/dashboard/clientes', icon: Handshake },
     { title: 'Perfil', url: '/dashboard/perfil', icon: UserCircle },
