@@ -20,5 +20,10 @@ export const CLIENTS_KEY = {
 }
 
 export const APPOINTMENT_KEY = {
-  APPOINTMENTS: ['appointments']
+  APPOINTMENTS: ['appointments'],
+  STATUS_COUNTS: ['appointment-status-counts']
+}
+
+export const REVENUE_KEY = {
+  BY_MONTH: ['revenue-by-month']
 }
