@@ -8,6 +8,61 @@ export type Database = {
   }
   public: {
     Tables: {
+      appointments: {
+        Row: {
+          client_id: number
+          created_at: string
+          id: number
+          member_id: string
+          scheduled_at: string
+          service_id: number
+          status: Database['public']['Enums']['status']
+          updated_at: string | null
+        }
+        Insert: {
+          client_id: number
+          created_at?: string
+          id?: number
+          member_id: string
+          scheduled_at: string
+          service_id: number
+          status: Database['public']['Enums']['status']
+          updated_at?: string | null
+        }
+        Update: {
+          client_id?: number
+          created_at?: string
+          id?: number
+          member_id?: string
+          scheduled_at?: string
+          service_id?: number
+          status?: Database['public']['Enums']['status']
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'appointments_client_id_fkey'
+            columns: ['client_id']
+            isOneToOne: false
+            referencedRelation: 'clients'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'appointments_member_id_fkey'
+            columns: ['member_id']
+            isOneToOne: false
+            referencedRelation: 'members'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'appointments_service_id_fkey'
+            columns: ['service_id']
+            isOneToOne: false
+            referencedRelation: 'services'
+            referencedColumns: ['id']
+          }
+        ]
+      }
       clients: {
         Row: {
           cedula: string
@@ -88,7 +143,7 @@ export type Database = {
           {
             foreignKeyName: 'members_user_id_fkey'
             columns: ['id']
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: 'profiles'
             referencedColumns: ['id']
           }
@@ -197,7 +252,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      status: 'Pendiente' | 'Agendada' | 'Cancelada' | 'Finalizada'
     }
     CompositeTypes: {
       [_ in never]: never
@@ -322,6 +377,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {}
+    Enums: {
+      status: ['Pendiente', 'Agendada', 'Cancelada', 'Finalizada']
+    }
   }
 } as const

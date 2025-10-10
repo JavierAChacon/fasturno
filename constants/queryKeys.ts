@@ -18,3 +18,7 @@ export const MEMBERS_KEY = {
 export const CLIENTS_KEY = {
   CLIENTS: ['clients']
 }
+
+export const APPOINTMENT_KEY = {
+  APPOINTMENTS: ['appointments']
+}
