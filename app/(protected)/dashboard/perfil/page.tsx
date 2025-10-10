@@ -25,11 +25,10 @@ export default function Page() {
   const form = useForm<UpdateUserSchema>({
     resolver: zodResolver(updateUserSchema),
     values: {
-      name: session?.user?.user_metadata?.name || '',
-      lastName: session?.user?.user_metadata?.lastName || '',
-      phone: session?.user?.user_metadata?.phone || '',
-      email: session?.user?.email || '',
-      password: ''
+      name: session?.user?.user_metadata?.name ?? '',
+      lastName: session?.user?.user_metadata?.lastName ?? '',
+      phone: session?.user?.user_metadata?.phone ?? '',
+      email: session?.user?.email ?? ''
     }
   })
 
@@ -159,20 +158,6 @@ export default function Page() {
                 </FormItem>
               )}
             />
-
-            {/* <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contraseña</FormLabel>
-                  <FormControl>
-                    <Input type="password" autoComplete="new-password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
 
             <SubmitButton loading={isUpdating} text="Actualizar Perfil" />
           </form>
